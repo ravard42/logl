@@ -2,7 +2,6 @@
 # define LOGL_HPP
 
 #include <iostream>
-#include <fstream>
 
 #include "glad.h"
 #include "glfw3.h"

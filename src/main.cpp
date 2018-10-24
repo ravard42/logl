@@ -7,7 +7,7 @@ int	main()
 	if (init_glfw(&e) == -1 || init_glad() == -1)
 		return (-1);
 
-	Shader		sh("./shader/vert.glsl", "./shader/frag.glsl");
+	Shader		shad("./shader/vert.glsl", "./shader/frag.glsl");
 
 	float 			vertices[] = {-0.5f, -0.5f, 0.0f,
 									-0.5f, 0.5f, 0.0f,
@@ -33,7 +33,7 @@ int	main()
 	glBindVertexArray(0);
 
 
-	glUseProgram(sh.getProgID());
+	glUseProgram(shad.getProgID());
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
 	while(!glfwWindowShouldClose(e.w))

@@ -1,38 +1,19 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   load_shader.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ravard <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/01 08:34:09 by ravard            #+#    #+#             */
-/*   Updated: 2018/10/23 01:35:19 by ravard           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Shader.hpp"
-
-
 
 //private member functions
 
 GLuint		Shader::_compileShader(std::string sourcePath, GLenum shaderType) {
-	GLuint				shadID;
 	std::ifstream		ifs(sourcePath);
-	std::string			tmp[2];
+	std::stringstream	ss;
+	std::string			s;
 	char const			*str;
-	GLint					status;
+	GLuint				shadID = glCreateShader(shaderType);
+	GLint				status;
 
-	shadID = glCreateShader(shaderType);
-	while (getline(ifs, tmp[1]))
-	{
-		tmp[1] += "\n";
-		tmp[0] += tmp[1];
-	}
-	ifs.close();
-	str = tmp[0].c_str();
-	glShaderSource(shadID, 1,
-			(const GLchar *const *)&str, NULL);
+	ss << ifs.rdbuf();
+	s = ss.str();
+	str = s.c_str();
+	glShaderSource(shadID, 1, &str, NULL);
 	glCompileShader(shadID);
 	glGetShaderiv(shadID, GL_COMPILE_STATUS, &status);
 	this->_debug(status, 'v');

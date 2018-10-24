@@ -1,7 +1,12 @@
 ﻿#ifndef SHADER_HPP
 #define	SHADER_HPP
 
-#include "logl.hpp"
+
+#include <glad.h>
+
+#include <fstream>
+#include <sstream>
+#include <iostream>
 
 class Shader {
 
