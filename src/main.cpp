@@ -33,9 +33,9 @@ int	main()
 	glBindVertexArray(0);
 
 
+	glClearColor(0.25f, 0.0f, 0.25f, 1.0f);
 	shad.use();
 	shad.setUniform3f("col", 0.0f, 0.5f, 0.0f);
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
 	while(!glfwWindowShouldClose(e.w))
 	{
