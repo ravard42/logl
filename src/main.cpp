@@ -58,14 +58,15 @@ int	main()
 	shad.use();
 	glm::vec3	col(0.0f, 0.5f, 0.0f);
 	shad.setUniform3f("col", col);
-	glm::mat4	rot;
 
+	glm::mat4	rot;
 	
 	while(!glfwWindowShouldClose(e.w))
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		
-		rot = glm::rotate(rot, glm::radians(1.0f), glm::vec3(0.0,0.0,1.0f));
+		rot = glm::mat4();
+		rot = glm::rotate(rot, (float)glfwGetTime(), glm::vec3(0.0,0.0,1.0f));
 		shad.setUniformMatrix4fv("rot", rot );
 		glBindVertexArray(vao);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
