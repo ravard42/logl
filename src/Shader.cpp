@@ -79,6 +79,10 @@ void		Shader::use( void ) const {
 	glUseProgram(this->_progID);
 }
 
-void 		Shader::setUniform3f(const std::string &name, float r, float g, float b) const { 
-	glUniform3f(glGetUniformLocation(this->_progID, name.c_str()), r, g, b); 
+void 		Shader::setUniform3f(const std::string &name, glm::vec3 v) const { 
+	glUniform3f(glGetUniformLocation(this->_progID, name.c_str()), v.r, v.g, v.b); 
+} 
+
+void 		Shader::setUniformMatrix4fv(const std::string &name, glm::mat4 m) const { 
+	glUniformMatrix4fv(glGetUniformLocation(this->_progID, name.c_str()), 1, GL_FALSE, glm::value_ptr(m));
 } 

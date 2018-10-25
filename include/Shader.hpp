@@ -7,6 +7,9 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 class Shader {
 
@@ -25,7 +28,8 @@ public:
 	~Shader( void );
 
 	void	use( void ) const;
-	void	setUniform3f( const std::string &name, float r, float g, float b ) const;
+	void	setUniform3f( const std::string &name, glm::vec3 v ) const;
+	void	setUniformMatrix4fv( const std::string &name, glm::mat4 m ) const;
 	
 };
 

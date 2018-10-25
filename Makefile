@@ -10,7 +10,7 @@ SRC = lib/glad/src/glad.cpp\
 
 OBJ = $(SRC:.cpp=.opp)
 
-INCL = -I lib/glfw3/include -I lib/glad/include -I include
+INCL = -I lib/glfw3/include -I lib/glad/include -I lib -I include
 LIB = -L ./lib/glfw3 -lglfw3 -framework AppKit -framework IOKit -framework CoreVideo
 
 all : $(NAME)
