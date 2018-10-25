@@ -1,14 +1,12 @@
 #version 410 core
 
-//uniform sampler2D	tex;
-//uniform float		transi;
-//in 		vec2		Texcoord;
-
+uniform sampler2D	Texture;
+in 		vec2		TexCoord;
 uniform vec3 col;
+
 out vec4 outColor;
 
 void	main()
 {
-	//outColor = texture(tex, Texcoord) * transi;
-	outColor = vec4(col, 1.0);
+	outColor = texture(Texture, TexCoord) * vec4(col, 1);
 }

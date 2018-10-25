@@ -1,12 +1,14 @@
 ﻿#ifndef LOGL_HPP
 # define LOGL_HPP
 
-#include <iostream>
+# include <iostream>
 
-#include "glad.h"
-#include "glfw3.h"
+# include "glad.h"
+# include "glfw3.h"
+# include "stb_image.h"
 
-#include "Shader.hpp"
+# include "Shader.hpp"
+
 
 # define WINX 800
 # define WINY 640

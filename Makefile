@@ -6,6 +6,7 @@ SRC = lib/glad/src/glad.cpp\
 		src/init.cpp\
 		src/event.cpp\
 		src/Shader.cpp\
+		src/stb_image.cpp\
 
 OBJ = $(SRC:.cpp=.opp)
 
