@@ -1,54 +1,35 @@
 #include "logl.hpp"
 
+static void		key_press(GLFWwindow *window, int key, t_env *e) {
+	int		i = -1;
 
-static void		key_press(GLFWwindow *window, int key, t_env *e)
-{
-	//int		i;
-
-
-	(void)e;
 	if (key == GLFW_KEY_ESCAPE)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
-//	else if (key == T && e->xpm_tab[5])
-//		texture(e);
-//	else if (key == R)
-//		e->o.rot = (e->o.rot == 0) ? 1 : 0;
-//	i = -1;
-//	while (++i < 6)
-//		if (key == e->key_tab[i])
-//			e->c.mouv |= ft_power(2, i);
-//	i = -1;
-//	while (++i < NB_OBJ)
-//		if (key == 320 + i
-//				&& load_f_obj_data(i, e)
-//				&& !(e->o.transi = 0.0f))
-//			send_data_to_gpu(e, i);
-//	i = -1;
-//	while (++i < NB_XPM)
-//		if (key == 48 + i
-//				&& (!e->o.tex || !(e->o.transi = 0.0f))
-//				&& tex_desalloc(e))
-//			load_sqr_xpm(i, e->xpm_tab[i], e);
+	while (++i < 6)
+		if (key == Camera::keyEntry[i])
+			e->cam.mouv |= (char)glm::pow(2, i);
+}
+
+static void		key_release(int key, t_env *e) {
+	int		i = -1;
+
+	while (++i < 6)
+		if (key == Camera::keyEntry[i])
+			e->cam.mouv &= ~(char)glm::pow(2, i);
 }
 
 static void		key_callback(GLFWwindow *window, int key,
 		int scancode, int action, int mods)
 {
 	t_env	*e;
-//	int		i;
 
 	(void)scancode;
 	(void)mods;
 	e = (t_env *)glfwGetWindowUserPointer(window);
 	if (action == GLFW_PRESS)
 		key_press(window, key, e);
-//	else if (action == GLFW_RELEASE)
-//	{
-//		i = -1;
-//		while (++i < 6)
-//			if (key == e->key_tab[i])
-//				e->c.mouv &= ~ft_power(2, i);
-//	}
+	else if (action == GLFW_RELEASE)
+		key_release(key, e);
 }
 
 void			set_callback(t_env *e)

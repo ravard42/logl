@@ -23,7 +23,6 @@ private:
 
 public:
 
-	Shader( void );
 	Shader( std::string vertPath, std::string fragPath );
 	~Shader( void );
 

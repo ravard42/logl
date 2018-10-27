@@ -1,5 +1,16 @@
 ﻿#include "logl.hpp"
 
+void	printM4(glm::mat4 mat)
+{
+	int		i = -1;
+
+	std::cout <<"--------------" << std::endl;
+	while (++i < 4)
+		std::cout << mat[0][i] << " | " << mat[1][i] << " | " << mat[2][i] << " | " << mat[3][i] << std::endl;
+	std::cout <<"--------------" << std::endl;
+}
+
+
 int	main()
 {
 	t_env		e;
@@ -7,14 +18,19 @@ int	main()
 	if (init_glfw(&e) == -1 || init_glad() == -1)
 		return (-1);
 
+	glEnable(GL_DEPTH_TEST);
 	Shader		shad("./shader/vert.glsl", "./shader/frag.glsl");
 
-	float 			vertices[] = {-0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
-									-0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 
-									0.5f, -0.5f, 0.0f, 1.0f, 1.0f,
-									0.5f, 0.5f, 0.0f, 1.0f, 0.0f};
+	float 			vertices[] = {-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+									-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 
+									0.5f, 0.5f, -0.5f, 1.0f, 0.0f,
+									0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
+									-0.5f, -0.5f, 0.5f, 0.0f, 1.0f,
+									-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 
+									0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+									0.5f, -0.5f, 0.5f, 1.0f, 1.0f};
 
-	unsigned int	indices[] = {0, 1, 2, 1, 2, 3};
+	unsigned int	indices[] = {0,1,2, 0,2,3, 4,5,6, 4,6,7, 4,5,1, 4,0,1, 3,7,2, 2,6,7, 1,5,6, 1,6,2, 0,3,7, 0,4,7};
 	
 
 	GLuint	vao, vbo, ebo;
@@ -59,21 +75,32 @@ int	main()
 	glm::vec3	col(0.0f, 0.5f, 0.0f);
 	shad.setUniform3f("col", col);
 
+	glm::mat4	trans;
 	glm::mat4	rot;
+	glm::mat4 	proj;
+	proj = glm::perspective(glm::radians(45.0f), (float)WINX / (float)WINY, 0.1f, 100.0f);
 	
 	while(!glfwWindowShouldClose(e.w))
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
-		
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+		e.cam.transMat(trans);
+		printM4(trans);
+	
+		shad.setUniformMatrix4fv("trans", trans);
+
 		rot = glm::mat4();
-		rot = glm::rotate(rot, (float)glfwGetTime(), glm::vec3(0.0,0.0,1.0f));
-		shad.setUniformMatrix4fv("rot", rot );
+		rot = glm::rotate(rot, (float)glfwGetTime(), glm::vec3(1.0,1.0,0.0f));
+		shad.setUniformMatrix4fv("rot", rot);
+		shad.setUniformMatrix4fv("proj", proj);
+		
 		glBindVertexArray(vao);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, 3 * 12, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 		
 		glfwSwapBuffers(e.w);
-		glfwPollEvents();    
+		glfwPollEvents();
+
 	}
 
 	glfwTerminate();
