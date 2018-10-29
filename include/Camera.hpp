@@ -4,6 +4,7 @@
 //#include <glad.h>
 
 # include <iostream>
+# define GLM_FORCE_SWIZZLE
 # include "glm/glm.hpp"
 # include "glm/gtc/matrix_transform.hpp"
 # include "glm/gtc/type_ptr.hpp"
@@ -15,20 +16,34 @@
 # define W 87
 # define S 83
 
+# define RIGHT 262
+# define LEFT 263
+# define DOWN 264
+# define UP 265
+# define BARREL_R 320
+# define BARREL_L 345
+
 class Camera {
 
 private:
-	glm::vec3	_pos;
-	glm::mat4	_base;
+	static short const	_keyEntry[];
+	char				_transEvent;
+	char				_rotEvent;
+	glm::mat4			_trans;
+	glm::mat4			_base;
+	void				_newTrans( void );
+	void				_newBase( void );
+	void				_printV4(glm::vec4 v) const;
+	void				_printM4(glm::mat4 mat) const;
 
 public:
 
 	Camera( void );
 	~Camera( void );
 
-	static char const	keyEntry[];
-	char				mouv;
-	void				transMat( glm::mat4 & trans );
+	void				setEvent( int key );
+	void				unsetEvent( int key );
+	glm::mat4			setView( void );
 
 };
 

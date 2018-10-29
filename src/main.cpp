@@ -75,24 +75,20 @@ int	main()
 	glm::vec3	col(0.0f, 0.5f, 0.0f);
 	shad.setUniform3f("col", col);
 
-	glm::mat4	trans;
-	glm::mat4	rot;
 	glm::mat4 	proj;
 	proj = glm::perspective(glm::radians(45.0f), (float)WINX / (float)WINY, 0.1f, 100.0f);
+	shad.setUniformMatrix4fv("proj", proj);
 	
 	while(!glfwWindowShouldClose(e.w))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-		e.cam.transMat(trans);
-		printM4(trans);
-	
-		shad.setUniformMatrix4fv("trans", trans);
+		shad.setUniformMatrix4fv("view", e.cam.setView());
 
-		rot = glm::mat4();
-		rot = glm::rotate(rot, (float)glfwGetTime(), glm::vec3(1.0,1.0,0.0f));
-		shad.setUniformMatrix4fv("rot", rot);
-		shad.setUniformMatrix4fv("proj", proj);
+
+	//	rot = glm::mat4();
+	//	rot = glm::rotate(rot, (float)glfwGetTime(), glm::vec3(1.0,1.0,0.0f));
+		//shad.setUniformMatrix4fv("rot", rot);
 		
 		glBindVertexArray(vao);
 		glDrawElements(GL_TRIANGLES, 3 * 12, GL_UNSIGNED_INT, 0);
