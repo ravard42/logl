@@ -42,8 +42,8 @@ void			Camera::_newBase( void ) {
 	rot += (float)((bool)(this->_rotEvent & 4) - (bool)(this->_rotEvent & 8)) * this->_base[1].xyz();
 	rot += (float)((bool)(this->_rotEvent & 16) - (bool)(this->_rotEvent & 32)) * this->_base[2].xyz();
 	if (!glm::isNull(rot, 0.005f))
-		this->_base = this->_myRotateMatrix(glm::radians(1.0f), glm::normalize(rot)) * this->_base;
-		//this->_base = glm::rotate(this->_base, glm::radians(1.0f), glm::normalize(rot));
+		//this->_base = this->_myRotateMatrix(glm::radians(1.0f), glm::normalize(rot)) * this->_base;
+		this->_base = glm::rotate(glm::mat4(), glm::radians(1.0f), glm::normalize(rot)) * this->_base;
 }
 
 void			Camera::_printV4(glm::vec4 v) const {
