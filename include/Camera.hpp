@@ -33,6 +33,7 @@ private:
 	glm::mat4			_trans;
 	glm::mat4			_base;
 	void				_newTrans( void );
+	glm::mat4			_myRotateMatrix(float rad, glm::vec3 n);
 	void				_newBase( void );
 	void				_printV4(glm::vec4 v) const;
 	void				_printM4(glm::mat4 mat) const;
