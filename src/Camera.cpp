@@ -8,35 +8,25 @@ Camera::~Camera( void ) {
 	std::cout << "Camera destructor called" << std::endl;
 }
 
-
 void			Camera::_newTrans( void ) {
-	if (this->_transEvent & 1)
-		this->_trans = glm::translate(this->_trans, -0.1f * this->_base[0].xyz());
-	if (this->_transEvent & 2)
-		this->_trans = glm::translate(this->_trans, 0.1f * this->_base[0].xyz());
-	if (this->_transEvent & 4)
-		this->_trans = glm::translate(this->_trans, -0.1f * this->_base[1].xyz());
-	if (this->_transEvent & 8)
-		this->_trans = glm::translate(this->_trans, 0.1f * this->_base[1].xyz());
-	if (this->_transEvent & 16)
-		this->_trans = glm::translate(this->_trans, 0.1f * this->_base[2].xyz());
-	if (this->_transEvent & 32)
-		this->_trans = glm::translate(this->_trans, -0.1f * this->_base[2].xyz());
+	glm::vec3	newTrans(0.0f, 0.0f, 0.0f);
+
+	std::cout << this->_transEvent << std::endl;
+	newTrans += (float)((bool)(this->_transEvent & 1) - (bool)(this->_transEvent & 2)) * this->_base[0].xyz();
+	newTrans += (float)((bool)(this->_transEvent & 4) - (bool)(this->_transEvent & 8)) * this->_base[1].xyz();
+	newTrans += (float)((bool)(this->_transEvent & 16) - (bool)(this->_transEvent & 32)) * this->_base[2].xyz();
+if (!glm::isNull(newTrans, 0.005f))
+	this->_trans = glm::translate(this->_trans, -0.1f * glm::normalize(newTrans));
 }
 
 void			Camera::_newBase( void ) {
-	if (this->_rotEvent & 1)
-		this->_base = glm::rotate(this->_base, -glm::radians(1.0f), this->_base[1].xyz());
-	if (this->_rotEvent & 2)
-		this->_base = glm::rotate(this->_base, glm::radians(1.0f), this->_base[1].xyz());
-	if (this->_rotEvent & 4)
-		this->_base = glm::rotate(this->_base, -glm::radians(1.0f), this->_base[0].xyz());
-	if (this->_rotEvent & 8)
-		this->_base = glm::rotate(this->_base, glm::radians(1.0f), this->_base[0].xyz());
-	if (this->_rotEvent & 16)
-		this->_base = glm::rotate(this->_base, -glm::radians(1.0f), this->_base[2].xyz());
-	if (this->_rotEvent & 32)
-		this->_base = glm::rotate(this->_base, glm::radians(1.0f), this->_base[2].xyz());
+	glm::vec3	rot(0.0f, 0.0f, 0.0f);
+
+	rot += (float)((bool)(this->_rotEvent & 1) - (bool)(this->_rotEvent & 2)) * this->_base[0].xyz();
+	rot += (float)((bool)(this->_rotEvent & 4) - (bool)(this->_rotEvent & 8)) * this->_base[1].xyz();
+	rot += (float)((bool)(this->_rotEvent & 16) - (bool)(this->_rotEvent & 32)) * this->_base[2].xyz();
+if (!glm::isNull(rot, 0.005f))
+	this->_base = glm::rotate(this->_base, glm::radians(1.0f), glm::normalize(rot));
 }
 
 void			Camera::_printV4(glm::vec4 v) const {
@@ -87,4 +77,4 @@ glm::mat4		Camera::setView( void ) {
 	return (view);
 }
 
-short const		Camera::_keyEntry[] = {D, A, E, Q, W, S, RIGHT, LEFT, DOWN, UP, BARREL_R, BARREL_L};
+short const		Camera::_keyEntry[] = {D, A, E, Q, S, W, UP, DOWN, LEFT, RIGHT, BARREL_L, BARREL_R};

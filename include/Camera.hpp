@@ -8,20 +8,21 @@
 # include "glm/glm.hpp"
 # include "glm/gtc/matrix_transform.hpp"
 # include "glm/gtc/type_ptr.hpp"
+#include "glm/gtx/vector_query.hpp"
 
 # define D 68
 # define A 65
 # define E 69
 # define Q 81
-# define W 87
 # define S 83
+# define W 87
 
-# define RIGHT 262
+# define UP 264
+# define DOWN 265
 # define LEFT 263
-# define DOWN 264
-# define UP 265
-# define BARREL_R 320
+# define RIGHT 262
 # define BARREL_L 345
+# define BARREL_R 320
 
 class Camera {
 
