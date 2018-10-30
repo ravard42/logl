@@ -1,6 +1,6 @@
 #include "Camera.hpp"
 
-Camera::Camera( void ) : _keyEvent(0) {
+Camera::Camera( void ) : _keyEvent(0), _firstMouse(true) {
 	std::cout << "Camera default constructor called" << std::endl;
 }
 
@@ -23,24 +23,25 @@ void			Camera::_newBase( void ) {
 
 	rot += (float)((bool)(this->_keyEvent & 64) - (bool)(this->_keyEvent & 128)) * this->_base[2].xyz();
 	if (!glm::isNull(rot, 0.005f))
-		//this->_base = this->_myRotateMatrix(glm::radians(1.0f), glm::normalize(rot)) * this->_base;
 		this->_base = glm::rotate(glm::mat4(), glm::radians(1.0f), glm::normalize(rot)) * this->_base;
 }
 
 void			Camera::_printV4(glm::vec4 v) const {
+	std::cout <<"-------------VECTOR--------------------------" << std::endl;
 	std::cout << v[0] << std::endl;
 	std::cout << v[1] << std::endl;
 	std::cout << v[2] << std::endl;
 	std::cout << v[3] << std::endl;
+	std::cout <<"--------------V_END--------------------------" << std::endl;
 }
 
 void			Camera::_printM4(glm::mat4 mat) const {
 	int		i = -1;
 
-	std::cout <<"--------------------------------------------" << std::endl;
+	std::cout <<"------------------MATRICE----------------------" << std::endl;
 	while (++i < 4)
 		std::cout << mat[0][i] << "          |" << mat[1][i] << "          |" << mat[2][i] << "          |" << mat[3][i] << std::endl;
-	std::cout <<"--------------------------------------------" << std::endl;
+	std::cout <<"--------------------M_END-----------------------" << std::endl;
 }
 
 void			Camera::setKeyEvent( int key ) {
@@ -57,6 +58,13 @@ void			Camera::unsetKeyEvent( int key ) {
 	while (++i < 8)
 		if (key == Camera::_keyEntry[i])
 			this->_keyEvent &= ~(char)glm::pow(2, i);
+}
+
+void			Camera::mouseEvent( glm::vec2 pos) {
+	if (this->_firstMouse && !(this->_firstMouse = false))
+		this->_lastMousePos = pos;
+
+	std::cout << "Cursor tracking => ("<< pos.x << ", " << pos.y << ")"<< std::endl;
 }
 
 glm::mat4		Camera::setView( void ) {

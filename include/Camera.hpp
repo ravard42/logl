@@ -24,10 +24,16 @@ class Camera {
 private:
 	static char const	_keyEntry[];
 	char					_keyEvent;
+
+	bool					_firstMouse;	
+	glm::vec2			_lastMousePos;
+	glm::vec2			_MouseVector;
+
 	glm::mat4			_trans;
 	glm::mat4			_base;
 	void				_newTrans( void );
 	void				_newBase( void );
+
 	void				_printV4(glm::vec4 v) const;
 	void				_printM4(glm::mat4 mat) const;
 
@@ -38,6 +44,7 @@ public:
 
 	void				setKeyEvent( int key );
 	void				unsetKeyEvent( int key );
+	void				mouseEvent( glm::vec2 pos );
 	glm::mat4			setView( void );
 
 };
