@@ -44,6 +44,7 @@ clean:
 	@$(RM) -rf $(OBJPATH)
 
 fclean : clean
+	@echo "Deleting logl binary"
 	@$(RM) -f $(NAME)
 
 re : fclean all

@@ -17,6 +17,7 @@ int			init_glfw(t_env *e) {
 	}
 	glfwMakeContextCurrent(e->w);
 	glfwSetWindowUserPointer(e->w, e);
+	glfwSetInputMode(e->w, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	set_callback(e);
 	return (1);
 }
