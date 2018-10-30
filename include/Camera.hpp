@@ -12,8 +12,8 @@
 
 # define X_POS 68
 # define X_NEG 65
-# define Y_POS 66
-# define Y_NEG 86
+# define Y_POS 86
+# define Y_NEG 67
 # define Z_POS 83
 # define Z_NEG 87
 # define BAR_L 81
@@ -22,12 +22,13 @@
 class Camera {
 
 private:
-	static char const	_keyEntry[];
-	char					_keyEvent;
+	static char const		_keyEntry[];
+	char						_keyEvent;
 
-	bool					_firstMouse;	
-	glm::vec2			_lastMousePos;
-	glm::vec2			_MouseVector;
+	bool						_firstMouse;	
+	glm::vec2				_lastMousePos;
+	float						_sensitivity;
+	glm::vec2				_mouseVector;
 
 	glm::mat4			_trans;
 	glm::mat4			_base;

@@ -1,6 +1,6 @@
 #include "Camera.hpp"
 
-Camera::Camera( void ) : _keyEvent(0), _firstMouse(true) {
+Camera::Camera( void ) : _keyEvent(0), _firstMouse(true), _sensitivity(2.0f){
 	std::cout << "Camera default constructor called" << std::endl;
 }
 
@@ -21,7 +21,10 @@ void			Camera::_newTrans( void ) {
 void			Camera::_newBase( void ) {
 	glm::vec3	rot(0.0f, 0.0f, 0.0f);
 
+	rot -= this->_mouseVector.x * this->_base[1].xyz();
+	rot += this->_mouseVector.y * this->_base[0].xyz();
 	rot += (float)((bool)(this->_keyEvent & 64) - (bool)(this->_keyEvent & 128)) * this->_base[2].xyz();
+	this->_mouseVector = glm::vec2(0.0f, 0.0f);
 	if (!glm::isNull(rot, 0.005f))
 		this->_base = glm::rotate(glm::mat4(), glm::radians(1.0f), glm::normalize(rot)) * this->_base;
 }
@@ -63,8 +66,16 @@ void			Camera::unsetKeyEvent( int key ) {
 void			Camera::mouseEvent( glm::vec2 pos) {
 	if (this->_firstMouse && !(this->_firstMouse = false))
 		this->_lastMousePos = pos;
+	else {
+		this->_mouseVector.x = pos.x - this->_lastMousePos.x;
+		this->_mouseVector.y = -(pos.y - this->_lastMousePos.y);
+		this->_lastMousePos = pos;
+		this->_mouseVector *= this->_sensitivity;
 
-	std::cout << "Cursor tracking => ("<< pos.x << ", " << pos.y << ")"<< std::endl;
+	//	std::cout << "cam mouse Vector = (" << this->_mouseVector.x << ", " << this->_mouseVector.y << ")"<< std::endl;
+	}
+
+	//std::cout << "Cursor tracking => ("<< pos.x << ", " << pos.y << ")"<< std::endl;
 }
 
 glm::mat4		Camera::setView( void ) {
