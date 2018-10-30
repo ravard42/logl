@@ -91,11 +91,11 @@ glm::mat4		Camera::setView( void ) {
 	//std::cout << "BASE" << std::endl;
 	//this->_printM4(this->_base);
 	//std::cout << "BASE INVERSE" << std::endl;
-	this->_printM4(glm::inverse(this->_base));
-	std::cout << "BASE TRANSPOSE" << std::endl;
-	this->_printM4(glm::transpose(this->_base));
+	//this->_printM4(glm::inverse(this->_base));
+	//std::cout << "BASE TRANSPOSE" << std::endl;
+	//this->_printM4(glm::transpose(this->_base));
 	this->_newTrans();
-	view = glm::inverse(this->_base) * this->_trans;
+	view = glm::transpose(this->_base) * this->_trans;
 	return (view);
 }
 

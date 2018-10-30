@@ -5,10 +5,10 @@
 
 # include <iostream>
 # define GLM_FORCE_SWIZZLE
-# include "glm/glm.hpp"
-# include "glm/gtc/matrix_transform.hpp"
-# include "glm/gtc/type_ptr.hpp"
-#include "glm/gtx/vector_query.hpp"
+# include "glm.hpp"
+# include "gtc/matrix_transform.hpp"
+# include "gtc/type_ptr.hpp"
+#include "gtx/vector_query.hpp"
 
 # define D 68
 # define A 65
