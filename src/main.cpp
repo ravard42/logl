@@ -19,14 +19,15 @@ int	main()
 		return (-1);
 
 	glEnable(GL_DEPTH_TEST);
-	Shader		shad("./shader/vert.glsl", "./shader/frag.glsl");
+	Shader		basicShad("./shader/basic/vert.glsl", "./shader/basic/frag.glsl");
+	Shader		lightShad("./shader/lighting/vert.glsl", "./shader/lighting/frag.glsl");
 
 	float 			vertices[] = {-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-									-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 
+									-0.5f, 0.5f, -0.5f, 0.0f, 0.0f,
 									0.5f, 0.5f, -0.5f, 1.0f, 0.0f,
 									0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
 									-0.5f, -0.5f, 0.5f, 0.0f, 1.0f,
-									-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 
+									-0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
 									0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
 									0.5f, -0.5f, 0.5f, 1.0f, 1.0f};
 
@@ -68,25 +69,55 @@ int	main()
 	else
 		std::cout << "Failed to load texture" << std::endl;
 	stbi_image_free(data);
+
+
+	GLuint	lightVao;
+	glGenVertexArrays(1, &lightVao);
+	glBindVertexArray(lightVao);
+	
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	//glGenBuffers(1, &ebo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
+	glEnableVertexAttribArray(0);
+	
+	glBindVertexArray(0);
+
+	
 	
 
+	
+	glm::vec3	lightCol(0.0f, 1.0f, 0.0f);
+	glm::vec3	lightPos(1.0f, 0.0f, 0.0f);
+	glm::mat4	lightModel;
+
+	lightModel = glm::translate(lightModel, lightPos);
+	lightModel = glm::rotate(lightModel, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	lightModel = glm::scale(lightModel, glm::vec3(0.2f));
+	basicShad.use();
+	basicShad.setUVec3("lightCol", lightCol);
+	basicShad.setUMat4("model", lightModel);
+	printM4(lightModel);
+
+	lightShad.use();
+	lightShad.setUVec3("lightCol", lightCol);
+
+	
 	glClearColor(0.25f, 0.0f, 0.25f, 1.0f);
-	shad.use();
-	glm::vec3	col(0.0f, 0.5f, 0.0f);
-	shad.setUniform3f("col", col);
-
-	
 	while(!glfwWindowShouldClose(e.w))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-		shad.setUniformMatrix4fv("projView", e.cam.setProjView());
-
-
-	//	rot = glm::mat4();
-	//	rot = glm::rotate(rot, (float)glfwGetTime(), glm::vec3(1.0,1.0,0.0f));
-		//shad.setUniformMatrix4fv("rot", rot);
 		
+		basicShad.use();
+		basicShad.setUMat4("projView", e.cam.setProjView());
+		glBindVertexArray(lightVao);
+		glDrawElements(GL_TRIANGLES, 3 * 12, GL_UNSIGNED_INT, 0);
+		glBindVertexArray(0);
+		
+		lightShad.use();
+		lightShad.setUMat4("projView", e.cam.setProjView());
 		glBindVertexArray(vao);
 		glDrawElements(GL_TRIANGLES, 3 * 12, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);

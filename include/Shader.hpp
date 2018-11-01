@@ -27,8 +27,8 @@ public:
 	~Shader( void );
 
 	void	use( void ) const;
-	void	setUniform3f( const std::string &name, glm::vec3 v ) const;
-	void	setUniformMatrix4fv( const std::string &name, glm::mat4 m ) const;
+	void	setUVec3( const std::string &name, glm::vec3 v ) const;
+	void	setUMat4( const std::string &name, glm::mat4 m ) const;
 	
 };
 
