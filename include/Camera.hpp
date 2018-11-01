@@ -10,6 +10,9 @@
 # include "gtc/type_ptr.hpp"
 #include "gtx/vector_query.hpp"
 
+# define WINX 800
+# define WINY 640
+
 # define X_POS 68
 # define X_NEG 65
 # define Y_POS 86
@@ -29,10 +32,11 @@ private:
 	float					_speed;
 	glm::mat4			_trans;
 	glm::mat4			_base;
-	bool						_firstMouse;	
-	glm::vec2				_lastMousePos;
-	float						_sensitivity;
-	glm::vec2				_mouseVector;
+	bool					_firstMouse;	
+	glm::vec2			_lastMousePos;
+	float					_sensitivity;
+	glm::vec2			_mouseVector;
+	float					_fov;
 
 	void				_newTrans( void );
 	void				_newBase( void );
@@ -48,7 +52,8 @@ public:
 	void				setKeyEvent( int key );
 	void				unsetKeyEvent( int key );
 	void				mouseEvent( glm::vec2 pos );
-	glm::mat4			setView( void );
+	void				scrollEvent( double offset );
+	glm::mat4			setProjView( void );
 
 };
 

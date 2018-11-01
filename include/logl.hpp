@@ -15,12 +15,6 @@
 # include "Shader.hpp"
 # include "Camera.hpp"
 
-
-# define WINX 800
-# define WINY 640
-
-
-
 typedef struct		s_env {
 
 	GLFWwindow		*w;

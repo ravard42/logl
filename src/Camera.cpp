@@ -1,6 +1,6 @@
 #include "Camera.hpp"
 
-Camera::Camera( void ) : _keyEvent(0), _speed(0.1), _firstMouse(true), _sensitivity(0.2f){
+Camera::Camera( void ) : _keyEvent(0), _speed(0.1), _firstMouse(true), _sensitivity(0.2f), _fov(45.0f) {
 	std::cout << "Camera default constructor called" << std::endl;
 }
 
@@ -76,13 +76,24 @@ void			Camera::mouseEvent( glm::vec2 pos) {
 	}
 }
 
-glm::mat4		Camera::setView( void ) {
+void			Camera::scrollEvent( double offset) {
+	if(this->_fov >= 1.0f && this->_fov <= 45.0f)
+		this->_fov += offset;
+	if(this->_fov <= 1.0f)
+		this->_fov = 1.0f;
+	if(this->_fov >= 45.0f)
+		this->_fov = 45.0f;
+}
+
+glm::mat4		Camera::setProjView( void ) {
 	glm::mat4	view;
+	glm::mat4 	proj;
 
 	this->_newTrans();
 	this->_newBase();
 	view = glm::transpose(this->_base) * this->_trans;
-	return (view);
+	proj = glm::perspective(glm::radians(this->_fov), (float)WINX / (float)WINY, 0.1f, 100.0f);
+	return ( proj * view);
 }
 
 short const		Camera::_keyEntry[] = {X_POS, X_NEG, Y_POS, Y_NEG, Z_POS, Z_NEG, TURBO};
