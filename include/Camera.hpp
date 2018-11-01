@@ -16,22 +16,24 @@
 # define Y_NEG 67
 # define Z_POS 83
 # define Z_NEG 87
-# define BAR_L 81
-# define BAR_R 69
+# define TURBO 340
+
+#define NB_KEY 7
 
 class Camera {
 
 private:
-	static char const		_keyEntry[];
+	static short const	_keyEntry[];
 	char						_keyEvent;
 
+	float					_speed;
+	glm::mat4			_trans;
+	glm::mat4			_base;
 	bool						_firstMouse;	
 	glm::vec2				_lastMousePos;
 	float						_sensitivity;
 	glm::vec2				_mouseVector;
 
-	glm::mat4			_trans;
-	glm::mat4			_base;
 	void				_newTrans( void );
 	void				_newBase( void );
 
