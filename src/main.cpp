@@ -19,35 +19,66 @@ int	main()
 		return (-1);
 
 	glEnable(GL_DEPTH_TEST);
-	Shader		basicShad("./shader/basic/vert.glsl", "./shader/basic/frag.glsl");
-	Shader		lightShad("./shader/lighting/vert.glsl", "./shader/lighting/frag.glsl");
+	Shader		liShad("./shader/light/v.glsl", "./shader/light/f.glsl");
+	Shader		objShad("./shader/object/v.glsl", "./shader/object/f.glsl");
 
-	float 			vertices[] = {-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-									-0.5f, 0.5f, -0.5f, 0.0f, 0.0f,
-									0.5f, 0.5f, -0.5f, 1.0f, 0.0f,
-									0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
-									-0.5f, -0.5f, 0.5f, 0.0f, 1.0f,
-									-0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
-									0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-									0.5f, -0.5f, 0.5f, 1.0f, 1.0f};
+	float vertices[] = {
+		    -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,  0.0f, -1.0f,
+		     0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 0.0f,  0.0f, -1.0f, 
+		     0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 0.0f,  0.0f, -1.0f, 
+		     0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 0.0f,  0.0f, -1.0f, 
+		    -0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 0.0f,  0.0f, -1.0f, 
+		    -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,  0.0f, -1.0f, 
+		
+		    -0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 0.0f,  0.0f, 1.0f,
+		     0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 0.0f,  0.0f, 1.0f,
+		     0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f,  0.0f, 1.0f,
+		     0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f,  0.0f, 1.0f,
+		    -0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 0.0f,  0.0f, 1.0f,
+		    -0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 0.0f,  0.0f, 1.0f,
+		
+		    -0.5f,  0.5f,  0.5f, 0.0f, 0.0f, -1.0f,  0.0f,  0.0f,
+		    -0.5f,  0.5f, -0.5f, 0.0f, 0.0f, -1.0f,  0.0f,  0.0f,
+		    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,  0.0f,  0.0f,
+		    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,  0.0f,  0.0f,
+		    -0.5f, -0.5f,  0.5f, 0.0f, 0.0f, -1.0f,  0.0f,  0.0f,
+		    -0.5f,  0.5f,  0.5f, 0.0f, 0.0f, -1.0f,  0.0f,  0.0f,
+		
+		     0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f,  0.0f,  0.0f,
+		     0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 1.0f,  0.0f,  0.0f,
+		     0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f,  0.0f,  0.0f,
+		     0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f,  0.0f,  0.0f,
+		     0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,  0.0f,  0.0f,
+		     0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f,  0.0f,  0.0f,
+		
+		    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, -1.0f,  0.0f,
+		     0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, -1.0f,  0.0f,
+		     0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 0.0f, -1.0f,  0.0f,
+		     0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 0.0f, -1.0f,  0.0f,
+		    -0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 0.0f, -1.0f,  0.0f,
+		    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, -1.0f,  0.0f,
+		
+		    -0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 0.0f,  1.0f,  0.0f,
+		     0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 0.0f,  1.0f,  0.0f,
+		     0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 0.0f,  1.0f,  0.0f,
+		     0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 0.0f,  1.0f,  0.0f,
+		    -0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 0.0f,  1.0f,  0.0f,
+		    -0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 0.0f,  1.0f,  0.0f
+		};
 
-	unsigned int	indices[] = {0,1,2, 0,2,3, 4,5,6, 4,6,7, 4,5,1, 4,0,1, 3,7,2, 2,6,7, 1,5,6, 1,6,2, 0,3,7, 0,4,7};
-	
-
-	GLuint	vao, vbo, ebo;
+	GLuint	vao, vbo;
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 	
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glGenBuffers(1, &ebo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(5 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 	
 	glBindVertexArray(0);
 
@@ -71,13 +102,12 @@ int	main()
 	stbi_image_free(data);
 
 
-	GLuint	lightVao;
-	glGenVertexArrays(1, &lightVao);
-	glBindVertexArray(lightVao);
+	GLuint	liVao;
+	glGenVertexArrays(1, &liVao);
+	glBindVertexArray(liVao);
 	
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
 	glEnableVertexAttribArray(0);
 	
 	glBindVertexArray(0);
@@ -86,36 +116,37 @@ int	main()
 	
 
 	
-	glm::vec3	lightCol(0.0f, 1.0f, 0.0f);
-	glm::vec3	lightPos(1.0f, 0.0f, 0.0f);
-	glm::mat4	lightModel;
+	glm::vec3	liCol(0.0f, 1.0f, 0.0f);
+	glm::vec3	liPos(-1.0f, 1.0f, 1.0f);
+	glm::mat4	liModel;
 
-	lightModel = glm::translate(lightModel, lightPos);
-	lightModel = glm::rotate(lightModel, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	lightModel = glm::scale(lightModel, glm::vec3(0.2f));
-	basicShad.use();
-	basicShad.setUVec3("lightCol", lightCol);
-	basicShad.setUMat4("model", lightModel);
+	liModel = glm::translate(liModel, liPos);
+	liModel = glm::rotate(liModel, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	liModel = glm::scale(liModel, glm::vec3(0.2f));
+	liShad.use();
+	liShad.setUVec3("Col", liCol);
+	liShad.setUMat4("model", liModel);
 
-	lightShad.use();
-	lightShad.setUVec3("lightCol", lightCol);
+	objShad.use();
+	objShad.setUVec3("lightCol", liCol);
 
 	
-	glClearColor(0.25f, 0.0f, 0.25f, 1.0f);
+	//glClearColor(0.25f, 0.0f, 0.25f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	while(!glfwWindowShouldClose(e.w))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		basicShad.use();
-		basicShad.setUMat4("projView", e.cam.setProjView());
-		glBindVertexArray(lightVao);
-		glDrawElements(GL_TRIANGLES, 3 * 12, GL_UNSIGNED_INT, 0);
+		liShad.use();
+		liShad.setUMat4("projView", e.cam.setProjView());
+		glBindVertexArray(liVao);
+		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
 		glBindVertexArray(0);
 		
-		lightShad.use();
-		lightShad.setUMat4("projView", e.cam.setProjView());
+		objShad.use();
+		objShad.setUMat4("projView", e.cam.setProjView());
 		glBindVertexArray(vao);
-		glDrawElements(GL_TRIANGLES, 3 * 12, GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
 		glBindVertexArray(0);
 		
 		glfwSwapBuffers(e.w);
@@ -123,10 +154,9 @@ int	main()
 
 	}
 
-	glDeleteVertexArrays(1, &lightVao);
+	glDeleteVertexArrays(1, &liVao);
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);
-	glDeleteBuffers(1, &ebo);
 	glDeleteTextures(1, &tex);
 	glfwTerminate();
 	return 0;

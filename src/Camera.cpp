@@ -1,7 +1,8 @@
 #include "Camera.hpp"
 
-Camera::Camera( void ) : _keyEvent(0), _speed(0.1), _firstMouse(true), _sensitivity(0.2f), _fov(45.0f) {
+Camera::Camera( void ) : _keyEvent(0), _speed(SPEED), _firstMouse(true), _sensitivity(0.2f), _fov(45.0f) {
 	std::cout << "Camera default constructor called" << std::endl;
+	this->_trans = glm::translate(glm::mat4(), -glm::vec3(0.0f, 0.0f, 5.0f));	
 }
 
 Camera::~Camera( void ) {
@@ -11,7 +12,7 @@ Camera::~Camera( void ) {
 void			Camera::_newTrans( void ) {
 	glm::vec3	newTrans(0.0f, 0.0f, 0.0f);
 
-	this->_speed = (this->_keyEvent & 64) ? 0.3f : 0.1f;
+	this->_speed = (this->_keyEvent & 64) ? 3 * SPEED : SPEED;
 	newTrans += (float)((bool)(this->_keyEvent & 1) - (bool)(this->_keyEvent & 2)) * this->_base[0].xyz();
 	newTrans += (float)((bool)(this->_keyEvent & 4) - (bool)(this->_keyEvent & 8)) * this->_base[1].xyz();
 	newTrans += (float)((bool)(this->_keyEvent & 16) - (bool)(this->_keyEvent & 32)) * this->_base[2].xyz();

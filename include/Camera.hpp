@@ -23,6 +23,8 @@
 
 #define NB_KEY 7
 
+#define SPEED	0.03
+
 class Camera {
 
 private:
