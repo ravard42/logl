@@ -76,10 +76,7 @@ int	main()
 	glBindVertexArray(lightVao);
 	
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	//glGenBuffers(1, &ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
 	glEnableVertexAttribArray(0);
 	
@@ -99,7 +96,6 @@ int	main()
 	basicShad.use();
 	basicShad.setUVec3("lightCol", lightCol);
 	basicShad.setUMat4("model", lightModel);
-	printM4(lightModel);
 
 	lightShad.use();
 	lightShad.setUVec3("lightCol", lightCol);
@@ -127,6 +123,11 @@ int	main()
 
 	}
 
+	glDeleteVertexArrays(1, &lightVao);
+	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &vbo);
+	glDeleteBuffers(1, &ebo);
+	glDeleteTextures(1, &tex);
 	glfwTerminate();
 	return 0;
 }
