@@ -9,9 +9,11 @@ ROOT = 		$(shell /bin/pwd)
 OBJPATH = 	$(ROOT)/obj
 SRCPATH = 	$(ROOT)/src
 
+
+
 FLAGS = -Wall -Wextra -Werror
-INCL = -I lib/glfw3/include -I lib/glad -I lib/glm -I lib/stb_image -I include
-LIB = -L ./lib/glfw3 -lglfw3 -framework AppKit -framework IOKit -framework CoreVideo
+INCL = -I lib/glfw3/include -I lib/glad -I lib/glm -I lib/stb_image -I lib/assimp-4.1.0/include/assimp -I include
+LIB = -L ./lib/glfw3 -lglfw3 -L ./lib/assimp-4.1.0/lib/ -lassimp -framework AppKit -framework IOKit -framework CoreVideo
 
 SRC = glad.cpp\
 		stb_image.cpp\
@@ -24,8 +26,16 @@ SRC = glad.cpp\
 OBJ = $(patsubst %.cpp, $(OBJPATH)/%.opp, $(SRC))
 
 
-all: $(OBJPATH) $(NAME)
+all: assimp $(OBJPATH) $(NAME)
 
+assimp:
+	@echo "downloading assimp [...]"
+	@wget https://github.com/assimp/assimp/archive/v4.1.0.tar.gz -O ./lib/assimp.tar.gz
+	@echo "done"
+	@echo "decompressing and installing assimp [...]"
+	@cd lib && tar xzf assimp.tar.gz && rm assimp.tar.gz && cd assimp-4.1.0 && cmake ./ && make
+	@echo "done"
+ 
 $(OBJPATH):
 	@echo "Creating OBJ directory"
 	@$(MKDIR) $@
@@ -43,7 +53,12 @@ clean:
 	@echo "Deleting OBJ files"
 	@$(RM) -rf $(OBJPATH)
 
-fclean : clean
+cleanAssimp:
+	@echo "Deleting assimp"
+	@$(RM) -rf lib/assimp.tar.gz
+	@$(RM) -rf lib/assimp-4.1.0
+
+fclean : clean cleanAssimp
 	@echo "Deleting logl binary"
 	@$(RM) -f $(NAME)
 

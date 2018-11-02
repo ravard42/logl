@@ -9,6 +9,9 @@
 # include "glm.hpp"
 # include "gtc/matrix_transform.hpp"
 # include "gtc/type_ptr.hpp"
+#include "Importer.hpp"
+#include "scene.h"
+#include "postprocess.h"
 
 
 

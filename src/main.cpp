@@ -14,6 +14,7 @@ void	printM4(glm::mat4 mat)
 int	main()
 {
 	t_env		e;
+//	Assimp::Importer		import;
 
 	if (init_glfw(&e) == -1 || init_glad() == -1)
 		return (-1);
