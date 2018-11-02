@@ -113,8 +113,6 @@ int	main()
 	glBindVertexArray(0);
 
 
-	float			t;
-	glm::vec2	vt;
 
 
 	glm::vec3	liCol;
@@ -122,21 +120,17 @@ int	main()
 	glm::mat4	liModel;
 
 	
-
-	
 	glm::vec3	objPos(0.0f, 0.0f, 0.0f);
 	glm::mat4	objModel;
-	glm::mat3	objNormalMatrix;
-//	objModel = glm::translate(objModel, objPos);
-//	objModel = glm::rotate(objModel, glm::radians(45.0f), glm::vec3(0.0f, -1.0f, 0.0f));
-	objNormalMatrix = glm::transpose(glm::inverse(glm::mat3(objModel)));
+	glm::mat3	objNormalMatrix = glm::transpose(glm::inverse(glm::mat3(objModel)));
 	objShad.use();
 	objShad.setUMat4("model", objModel);
 	objShad.setUMat3("normalMatrix", objNormalMatrix);
 
 	
-	//glClearColor(0.25f, 0.0f, 0.25f, 1.0f);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	float			t;
+	glm::vec2	vt;
 	while(!glfwWindowShouldClose(e.w))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
