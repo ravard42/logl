@@ -146,7 +146,7 @@ int	main()
 		std::cout << t << std::endl;
 	
 		liCol = glm::vec3(abs(vt.x), vt.x + vt.y, abs(vt.y));
-		liPos = glm::vec3(vt.x * -3.0f, 1.0f, vt.y * -3.0f);
+		liPos = glm::vec3(vt.y * 3.0f, 1.0f, vt.x * 3.0f);
 		liModel = glm::mat4();
 		liModel = glm::translate(liModel, liPos);
 		liModel = glm::rotate(liModel, glm::radians(t * 42), glm::vec3(0.0f, 0.0f, 1.0f));
