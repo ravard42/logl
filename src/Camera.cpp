@@ -86,15 +86,15 @@ void			Camera::scrollEvent( double offset) {
 		this->_fov = 45.0f;
 }
 
-glm::mat4		Camera::setProjView( void ) {
+glm::mat4		Camera::setProjViewModel( glm::mat4 model ) {
 	glm::mat4	view;
 	glm::mat4 	proj;
 
+	proj = glm::perspective(glm::radians(this->_fov), (float)WINX / (float)WINY, 0.1f, 100.0f);
 	this->_newTrans();
 	this->_newBase();
 	view = glm::transpose(this->_base) * this->_trans;
-	proj = glm::perspective(glm::radians(this->_fov), (float)WINX / (float)WINY, 0.1f, 100.0f);
-	return ( proj * view);
+	return ( proj * view * model);
 }
 
 short const		Camera::_keyEntry[] = {X_POS, X_NEG, Y_POS, Y_NEG, Z_POS, Z_NEG, TURBO};

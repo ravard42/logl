@@ -125,17 +125,22 @@ int	main()
 	liModel = glm::scale(liModel, glm::vec3(0.2f));
 	liShad.use();
 	liShad.setUVec3("Col", liCol);
-	liShad.setUMat4("model", liModel);
+//	liShad.setUMat4("model", liModel);
 
 	
 	glm::vec3	objPos(0.0f, 0.0f, -5.0f);
 	glm::mat4	objModel;
+	glm::mat3	objNormalMatrix;
 
 	objModel = glm::translate(objModel, objPos);
+	objModel = glm::rotate(objModel, glm::radians(45.0f), glm::vec3(0.0f, -1.0f, 0.0f));
+	objNormalMatrix = glm::transpose(glm::inverse(glm::mat3(objModel)));
+
 	objShad.use();
 	objShad.setUVec3("lightCol", liCol);
 	objShad.setUVec3("lightPos", liPos);
 	objShad.setUMat4("model", objModel);
+	objShad.setUMat3("normalMatrix", objNormalMatrix);
 
 	
 	//glClearColor(0.25f, 0.0f, 0.25f, 1.0f);
@@ -145,13 +150,13 @@ int	main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		liShad.use();
-		liShad.setUMat4("projView", e.cam.setProjView());
+		liShad.setUMat4("projViewModel", e.cam.setProjViewModel(liModel));
 		glBindVertexArray(liVao);
 		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
 		glBindVertexArray(0);
 		
 		objShad.use();
-		objShad.setUMat4("projView", e.cam.setProjView());
+		objShad.setUMat4("projViewModel", e.cam.setProjViewModel(objModel));
 		glBindVertexArray(vao);
 		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
 		glBindVertexArray(0);
