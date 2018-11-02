@@ -2,7 +2,7 @@
 
 Camera::Camera( void ) : _keyEvent(0), _speed(SPEED), _firstMouse(true), _sensitivity(0.2f), _fov(45.0f) {
 	std::cout << "Camera default constructor called" << std::endl;
-//	this->_trans = glm::translate(glm::mat4(), -glm::vec3(0.0f, 0.0f, 5.0f));	
+	this->_trans = glm::translate(glm::mat4(), -glm::vec3(0.0f, 0.0f, 5.0f));	
 }
 
 Camera::~Camera( void ) {
@@ -95,6 +95,11 @@ glm::mat4		Camera::setProjViewModel( glm::mat4 model ) {
 	this->_newBase();
 	view = glm::transpose(this->_base) * this->_trans;
 	return ( proj * view * model);
+}
+	
+glm::vec3		Camera::sendViewPos( void ) const {
+	
+	return (glm::vec3(-this->_trans[3]));
 }
 
 short const		Camera::_keyEntry[] = {X_POS, X_NEG, Y_POS, Y_NEG, Z_POS, Z_NEG, TURBO};

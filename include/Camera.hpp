@@ -56,7 +56,7 @@ public:
 	void				mouseEvent( glm::vec2 pos );
 	void				scrollEvent( double offset );
 	glm::mat4		setProjViewModel( glm::mat4 model );
-
+	glm::vec3		sendViewPos( void ) const;
 };
 
 #endif
