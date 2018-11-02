@@ -117,7 +117,7 @@ int	main()
 
 	
 	glm::vec3	liCol(0.0f, 1.0f, 0.0f);
-	glm::vec3	liPos(-1.0f, 1.0f, 1.0f);
+	glm::vec3	liPos(-1.0f, 1.0f, -3.0f);
 	glm::mat4	liModel;
 
 	liModel = glm::translate(liModel, liPos);
@@ -127,8 +127,15 @@ int	main()
 	liShad.setUVec3("Col", liCol);
 	liShad.setUMat4("model", liModel);
 
+	
+	glm::vec3	objPos(0.0f, 0.0f, -5.0f);
+	glm::mat4	objModel;
+
+	objModel = glm::translate(objModel, objPos);
 	objShad.use();
 	objShad.setUVec3("lightCol", liCol);
+	objShad.setUVec3("lightPos", liPos);
+	objShad.setUMat4("model", objModel);
 
 	
 	//glClearColor(0.25f, 0.0f, 0.25f, 1.0f);
